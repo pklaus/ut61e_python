@@ -8,6 +8,8 @@ functionality is not documented).
 The utility should output only sensible measurements and checks if the data
 packet is valid (there is no check sum in the data packet).
 
+Requires pySerial library from http://pyserial.sourceforge.net/
+
 NOTE: if RS-232 to USB adapter is used make sure the DTR signal is connected
 in the adapter. Otherwise, there will be no received data (this is the case with
 UNI-T UT61E).
