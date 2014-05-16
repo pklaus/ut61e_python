@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 """
 Utility for parsing data from multimeters based on Cyrustek ES51922 chipset.
-Version 0.9
+Version 0.9.2
 
-Written using as much information from the datasheet as possible (some
-functionality is not documented).
-The utility should output only sensible measurements and checks if the data
-packet is valid (there is no check sum in the data packet).
+Written using as much information from the datasheet as possible
+(some functionality is not documented).
+The utility should output only sensible measurements and checks if
+the data packet is valid (there is no check sum in the data packet).
 
 Tested with UNI-T UT61E multimeter.
 All the functionality of UNI-T UT61E seems to work fine.
