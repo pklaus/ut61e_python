@@ -9,46 +9,24 @@ functionality is not documented).
 The utility should output only sensible measurements and checks if the data
 packet is valid (there is no check sum in the data packet).
 
-Requires pySerial library from http://pyserial.sourceforge.net/
-
-NOTE: if RS-232 to USB adapter is used make sure the DTR signal is connected
-in the adapter. Otherwise, there will be no received data (this is the case with
-UNI-T UT61E).
-
 Tested with UNI-T UT61E multimeter.
 All the functionality of UNI-T UT61E seems to work fine.
 Not tested: temperature and ADP modes.
 
 Licenced LGPL2+
-Copyright (C) 2013 Domas Jokubauskis (domas@jokubauskis.lt)
+Copyright
+  (C) 2013 Domas Jokubauskis (domas@jokubauskis.lt)
+  (C) 2014 Philipp Klaus (philipp.l.klaus@web.de)
 
 Some information was used from dmmut61e utility by Steffen Vogel
 """
 
 from __future__ import print_function
-import serial
 import sys
 from decimal import Decimal
 import struct
 import logging
 import datetime
-
-"""
-baud rate 19230
-
-single byte:
- 0V --| |-----------| |-|
-      |0|   D0-D6   |P|1|
--3V   |_|___________|_| |__    
-        LSB      MSB
-
-whole packet:
-range    digit4  digit3
-digit2   digit1  digit0
-function status  option1
-option2  option3 option4
-CR LF
-"""
 
 # http://wiki.python.org/moin/BitManipulation
 # testBit() returns a nonzero result, 2**offset, if the bit at 'offset' is one.
@@ -380,9 +358,6 @@ def output_csv(results):
 def main():
     import argparse
     parser = argparse.ArgumentParser(description='Utility for parsing data from multimeters based on Cyrustek ES51922 chipset.')
-    default_port = '/dev/ttyUSB0'
-    parser.add_argument('port',
-                        help='multimeter port (/dev/tty0, /dev/ttyUSB0, etc.)')
     parser.add_argument('-m', '--mode', choices=['csv', 'readable'],
                         default="csv",
                         help='output mode (default: csv)')
@@ -398,20 +373,6 @@ def main():
         log_level = logging.INFO
     logging.basicConfig(format='%(levelname)s:%(message)s', level=log_level)
     
-    logging.info('Using port "{port}" in "{mode}" mode."'.format(port=args.port, 
-                                                                 mode=args.mode))
-    try:
-        ser = serial.Serial(port = args.port,
-                baudrate = 19200,
-                bytesize=serial.SEVENBITS,
-                stopbits = serial.STOPBITS_ONE,
-                parity = serial.PARITY_ODD,
-                timeout=15) # default timeout for reading in seconds
-    # exit if the port is not opened
-    except serial.SerialException, e:
-        sys.exit(e)
-    ser.setDTR(level=True)
-    ser.setRTS(level=False)
     output_file = None
     if args.mode == 'csv':
         timestamp = datetime.datetime.now()
@@ -426,7 +387,7 @@ def main():
         header = "timestamp;{}\n".format(";".join(CSV_FIELDS))
         output_file.write(header)
     while True:
-        line = ser.readline()
+        line = sys.stdin.readline()
         line = line.strip()
         timestamp = datetime.datetime.now()
         timestamp = timestamp.isoformat(sep=' ')
@@ -448,7 +409,6 @@ def main():
             logging.warning('Unknown packet from multimeter: "{}"'.format(line))
         else:
             logging.warning("No response from multimeter")
-    ser.close()
     
 if __name__ == "__main__":
     main()
