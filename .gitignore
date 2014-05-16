@@ -1,3 +1,6 @@
+# Measurement files of the dmm_es51922.py utility
+measurement_*.csv
+
 ### General Python stuff
 
 # Byte-compiled / optimized / DLL files
