@@ -379,7 +379,7 @@ def output_csv(results):
 
 def main():
     import argparse
-    parser = argparse.ArgumentParser(description='Upload time data files.')
+    parser = argparse.ArgumentParser(description='Utility for parsing data from multimeters based on Cyrustek ES51922 chipset.')
     default_port = '/dev/ttyUSB0'
     parser.add_argument('port',
                         help='multimeter port (/dev/tty0, /dev/ttyUSB0, etc.)')
@@ -389,8 +389,7 @@ def main():
     parser.add_argument('-f', '--file',
                         help='output file')
     parser.add_argument('--verbose', action='store_true',
-                        help='the program is verbose about its work')
-    #parser.add_argument('--port', help='config file', default="time_data_upload.cfg")
+                        help='enable verbose output')
     args = parser.parse_args()
     
     if args.verbose:
