@@ -407,7 +407,7 @@ def main():
         elif line:
             logging.warning('Unknown packet from multimeter: "{}"'.format(line))
         else:
-            logging.warning("No response from multimeter")
+            logging.warning('Not a response from the multimeter: ""'.format(line))
     
 if __name__ == "__main__":
     main()
