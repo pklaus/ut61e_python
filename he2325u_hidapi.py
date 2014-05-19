@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 
 # uses cython-hidapi: https://github.com/trezor/cython-hidapi
-import hid
+try:
+    import hidraw as hid
+except:
+    import hid
 import time
 import sys
 

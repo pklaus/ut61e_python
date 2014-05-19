@@ -8,9 +8,11 @@ Captures and Interprets Data from your Digital Multimeter Uni-T UT61E using Pyth
 * `es51922.py` - Interprets the output of the ES51922 chip.
   Reads lines from stdin.
 * `he2325u_hidapi.py` - Reads from the USB/HID adapter cable using HIDAPI.
-  **Needs to be run as root.** This tool prints its output to stdout.
+  This tool prints its output to stdout.
+  Works on Linux and Mac OS X (Windows not tested).
 * `he2325u_pyusb.py` - Reads from the USB/HID adapter cable using PyUSB.
   **Needs to be run as root.** This tool prints its output to stdout.
+  Tested on Linux.
 
 #### Usage
 
