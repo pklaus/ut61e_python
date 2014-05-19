@@ -90,13 +90,13 @@ RANGE_ADP = {
 }
 
 RANGE_RESISTANCE = {
-    0b0110000: (1e0, 2, "W"), #220.00Ω
-    0b0110001: (1e3, 4, "kW"), #2.2000KΩ
-    0b0110010: (1e3, 3, "kW"), #22.000KΩ
-    0b0110011: (1e3, 2, "kW"), #220.00KΩ
-    0b0110100: (1e6, 4, "MW"), #2.2000MΩ
-    0b0110101: (1e6, 3, "MW"), #22.000MΩ
-    0b0110110: (1e6, 2, "MW"), #220.00MΩ
+    0b0110000: (1e0, 2, "Ω"), #220.00Ω
+    0b0110001: (1e3, 4, "kΩ"), #2.2000KΩ
+    0b0110010: (1e3, 3, "kΩ"), #22.000KΩ
+    0b0110011: (1e3, 2, "kΩ"), #220.00KΩ
+    0b0110100: (1e6, 4, "MΩ"), #2.2000MΩ
+    0b0110101: (1e6, 3, "MΩ"), #22.000MΩ
+    0b0110110: (1e6, 2, "MΩ"), #220.00MΩ
 }
 
 RANGE_FREQUENCY = {
@@ -127,7 +127,7 @@ RANGE_DIODE = {
     0b0110000: (1e0, 4, "V"),  #2.2000V
 }
 RANGE_CONTINUITY = {
-    0b0110000: (1e0, 2, "W"), #220.00Ω
+    0b0110000: (1e0, 2, "Ω"), #220.00Ω
 }
 
 FUNCTION = {
@@ -137,8 +137,8 @@ FUNCTION = {
     0b0111111: ("current", RANGE_CURRENT_AUTO_MA, "A"), #Auto mA Current   Auto mA Current   Auto 22.000A/220.00A
     0b0110000: ("current", RANGE_CURRENT_22A, "A"), #22 A current
     0b0111001: ("current", RANGE_CURRENT_MANUAL, "A"), #Manual A Current
-    0b0110011: ("resistance", RANGE_RESISTANCE, "W"),
-    0b0110101: ("continuity", RANGE_CONTINUITY, "W"),
+    0b0110011: ("resistance", RANGE_RESISTANCE, "Ω"),
+    0b0110101: ("continuity", RANGE_CONTINUITY, "Ω"),
     0b0110001: ("diode", RANGE_DIODE, "V"),
     0b0110010: ("frequency", RANGE_FREQUENCY, "Hz"),
     0b0110110: ("capacitance", RANGE_CAPACITANCE, "F"),
