@@ -386,8 +386,7 @@ def main():
         logging.info('Writing to file "{}"'.format(file_name))
         header = "timestamp;{}\n".format(";".join(CSV_FIELDS))
         output_file.write(header)
-    while True:
-        line = sys.stdin.readline()
+    for line in sys.stdin:
         line = line.strip()
         timestamp = datetime.datetime.now()
         timestamp = timestamp.isoformat(sep=' ')
