@@ -7,6 +7,7 @@
 # * http://www.micahcarrick.com/credit-card-reader-pyusb.html
 # * log output of `sudo tshark -i usbmon6 -V`
 
+from __future__ import print_function
 import usb.core
 import usb.util
 import sys
@@ -25,11 +26,11 @@ def pyus():
             raise ValueError('Device not found')
 
         if dev.is_kernel_driver_active(0) is True:
-            print "We need to detach kernel driver"
+            print("We need to detach kernel driver")
             dev.detach_kernel_driver(0)
         dev.set_configuration()
 
-        #print dev.bLength, dev.bNumConfigurations, dev.bDeviceClass
+        #print(dev.bLength, dev.bNumConfigurations, dev.bDeviceClass)
 
         # get an endpoint instance
         cfg = dev.get_active_configuration()
@@ -50,7 +51,7 @@ def pyus():
         )
 
         assert ep is not None
-        #print 'packet details',ep.bEndpointAddress , ep.wMaxPacketSize
+        #print('packet details',ep.bEndpointAddress , ep.wMaxPacketSize)
 
         message = [0x00, 0x4b, 0x00, 0x00, 0x03]
         #dev.ctrl_transfer(bmRequestType, bmRequest, wValue, wIndex, payload)
@@ -70,9 +71,9 @@ def pyus():
                     sys.stdout.write(data)
                     sys.stdout.flush()
         except KeyboardInterrupt:
-            #print "You pressed CTRL-C, stopping..."
+            #print("You pressed CTRL-C, stopping...")
             pass
     except usb.core.USBError as e:
-        print "USB Error occured: ", e
+        print("USB Error occured: ", e)
 
 pyus()

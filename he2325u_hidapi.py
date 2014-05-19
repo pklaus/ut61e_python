@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from __future__ import print_function
 # uses cython-hidapi: https://github.com/trezor/cython-hidapi
 try:
     import hidraw as hid
@@ -11,10 +12,10 @@ import sys
 BPS = 19200
 
 try:
-    print "Enumerating Devices"
-    print hid.enumerate(0x1a86, 0xe008)
+    print("Enumerating Devices")
+    print(hid.enumerate(0x1a86, 0xe008))
 
-    print "Opening device"
+    print("Opening device")
     h = hid.device()
     h.open(0x1a86, 0xe008)
 
@@ -29,12 +30,12 @@ try:
     fr = h.send_feature_report(buf)
     if fr == -1:
         raise NameError("Sending Feature Report Failed")
-    print "Feature Report Sent"
+    print("Feature Report Sent")
 
     time.sleep(1.0)
 
     try:
-        print "Start Reading Messages"
+        print("Start Reading Messages")
         while True:
             #d = h.read(256)
             d = h.read(256, timeout_ms=1000)
@@ -49,15 +50,16 @@ try:
                 sys.stdout.write(data)
                 sys.stdout.flush()
     except KeyboardInterrupt:
-        print "You pressed CTRL-C, stopping..."
+        print("You pressed CTRL-C, stopping...")
 
-    print "Closing device"
+    print("Closing device")
     h.close()
 
-except IOError, ex:
-    print ex
-except Exception, ex:
-    print ex
+except IOError as ex:
+    print(ex)
+except Exception as ex:
+    print(ex)
 
-print "Done"
+
+print("Done")
 
