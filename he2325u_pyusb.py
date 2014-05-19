@@ -14,6 +14,7 @@ import sys
 
 idVendor  = 0x1a86
 idProduct = 0xe008
+interface = 0
 
 def pyus():
     join_int = lambda nums: int(''.join(str(i) for i in nums))
@@ -25,9 +26,9 @@ def pyus():
         if dev is None:
             raise ValueError('Device not found')
 
-        if dev.is_kernel_driver_active(0) is True:
+        if dev.is_kernel_driver_active(interface) is True:
             print("We need to detach kernel driver")
-            dev.detach_kernel_driver(0)
+            dev.detach_kernel_driver(interface)
         dev.set_configuration()
 
         #print(dev.bLength, dev.bNumConfigurations, dev.bDeviceClass)
