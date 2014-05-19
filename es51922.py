@@ -386,14 +386,21 @@ def main():
         logging.info('Writing to file "{}"'.format(file_name))
         header = "timestamp;{}\n".format(";".join(CSV_FIELDS))
         output_file.write(header)
-    for line in sys.stdin:
+    while True:
+        line = sys.stdin.readline()
+        if not line: break
         line = line.strip()
+        try:
+            line = line.encode('ascii')
+        except:
+            logging.warning('Not an ASCII input line, ignoring: "{}"'.format(line))
+            continue
         timestamp = datetime.datetime.now()
         timestamp = timestamp.isoformat(sep=' ')
         if len(line)==12:
             try:
                 results = parse(line)
-            except Exception, e:
+            except Exception as e:
                 logging.warning('Error "{}" packet from multimeter: "{}"'.format(e, line))
             if args.mode == 'csv':
                 line = output_csv(results)
