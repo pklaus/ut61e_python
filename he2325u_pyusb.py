@@ -59,7 +59,7 @@ def pyus():
 
         try:
             while 1:
-                answer = dev.read(ep.bEndpointAddress, ep.wMaxPacketSize,256)
+                answer = dev.read(ep.bEndpointAddress, ep.wMaxPacketSize, timeout=1000)
                 #answer = answer.tolist()
                 nbytes = answer[0] & 0x7
                 if nbytes > 0:
