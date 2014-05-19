@@ -33,7 +33,7 @@ import datetime
 def test_bit(int_type, offset):
     mask = 1 << offset
     return bool(int_type & mask)
-    
+
 def get_bits(int_type, template):
     bits = {}
     for i in range(7):
@@ -70,15 +70,15 @@ RANGE_CURRENT_AUTO_MA = {
 RANGE_CURRENT_AUTO = { #2-range auto A *It includes auto μA, mA, 22.000A/220.00A, 220.00A/2200.0A.
     0b0110000: "Lower Range (IVSL)", #Current measurement input for 220μA, 22mA.
     0b0110001: "Higher Range (IVSH)" #Current measurement input for 2200μA, 220mA and 22A modes.
-} 
+}
 RANGE_CURRENT_22A = { 0b0110000: (1e0, 3, "A") } #22.000 A
 
 RANGE_CURRENT_MANUAL = {
-    0b0110000: (1e0, 4, "A"), #2.2000A  
-    0b0110001: (1e0, 3, "A"), #22.000A  
-    0b0110010: (1e0, 2, "A"), #220.00A  
-    0b0110011: (1e0, 1, "A"), #2200.0A  
-    0b0110100: (1e0, 0, "A"), #22000A  
+    0b0110000: (1e0, 4, "A"), #2.2000A
+    0b0110001: (1e0, 3, "A"), #22.000A
+    0b0110010: (1e0, 2, "A"), #220.00A
+    0b0110011: (1e0, 1, "A"), #2200.0A
+    0b0110100: (1e0, 0, "A"), #22000A
 }
 
 RANGE_ADP = {
@@ -90,7 +90,7 @@ RANGE_ADP = {
 }
 
 RANGE_RESISTANCE = {
-    0b0110000: (1e0, 2, "W"), #220.00Ω 
+    0b0110000: (1e0, 2, "W"), #220.00Ω
     0b0110001: (1e3, 4, "kW"), #2.2000KΩ
     0b0110010: (1e3, 3, "kW"), #22.000KΩ
     0b0110011: (1e3, 2, "kW"), #220.00KΩ
@@ -100,9 +100,9 @@ RANGE_RESISTANCE = {
 }
 
 RANGE_FREQUENCY = {
-    0b0110000: (1e0, 1, "Hz"), #22.00Hz  
-    0b0110001: (1e0, 1, "Hz"), #220.0Hz  
-    #0b0110010                       
+    0b0110000: (1e0, 1, "Hz"), #22.00Hz
+    0b0110001: (1e0, 1, "Hz"), #220.0Hz
+    #0b0110010
     0b0110011: (1e3, 3, "kHz"), #22.000KHz
     0b0110100: (1e3, 2, "kHz"), #220.00KHz
     0b0110101: (1e6, 4, "MHz"), #2.2000MHz
@@ -127,7 +127,7 @@ RANGE_DIODE = {
     0b0110000: (1e0, 4, "V"),  #2.2000V
 }
 RANGE_CONTINUITY = {
-    0b0110000: (1e0, 2, "W"), #220.00Ω 
+    0b0110000: (1e0, 2, "W"), #220.00Ω
 }
 
 FUNCTION = {
@@ -185,7 +185,7 @@ OPTION2 = [
 
 OPTION3 = [
     0, 1, 1,
-    "DC", # DC measurement mode, either voltage or current. 
+    "DC", # DC measurement mode, either voltage or current.
     "AC", # AC measurement mode, either voltage or current.
     "AUTO", # 1-automatic mode, 0-manual
     "VAHZ",
@@ -215,7 +215,7 @@ def parse(packet):
     for d_option, OPTION in zip(d_options, OPTIONS):
         bits = get_bits(d_option, OPTION)
         options.update(bits)
-        
+    
     current = None
     if options["AC"] and options["DC"]:
         raise ValueError
@@ -223,7 +223,7 @@ def parse(packet):
         current = "AC"
     elif options["AC"]:
         current = "DC"
-        
+    
     operation = "normal"
     # sometimes there a glitch where both UL and OL are enabled in normal operation
     # so no error is raised when it occurs
@@ -231,12 +231,12 @@ def parse(packet):
         operation = "underload"
     elif options["OL"]:
         operation = "overload"
-        
+    
     if options["AUTO"]:
         mrange = "auto"
     else:
         mrange = "manual"
-        
+    
     if options["BATT"]:
         battery_low = True
     else:
@@ -253,7 +253,7 @@ def parse(packet):
         hold = True
     else:
         hold = False
-        
+    
     peak = None
     if options["MAX"]:
         peak = "max"
@@ -277,19 +277,19 @@ def parse(packet):
         mode = "duty_cycle"
         unit = "%"
         m_range = (1e0, 1, "%") #2200.0°C
-        
+    
     if mode == "temperature" and options["VBAR"]:
         m_range = (1e0, 1, "deg") #2200.0°C
     elif mode == "temperature" and not options["VBAR"]:
         m_range = (1e0, 2, "deg") #220.00°C and °F
-        
+    
     digits = [d_digit4, d_digit3, d_digit2, d_digit1, d_digit0]
     digits = [DIGITS[digit] for digit in digits]
     
     display_value = 0
     for i, digit in zip(range(5), digits):
         display_value += digit*(10**(4-i))
-        
+    
     # negative value
     if options["Sign"]:
         display_value = display_value * -1
@@ -332,7 +332,7 @@ def output_readable(results):
         line.append(" Battery low!")
     return line
 
-CSV_FIELDS = ["value", "unit", "mode", "current", "operation", "peak", 
+CSV_FIELDS = ["value", "unit", "mode", "current", "operation", "peak",
             "battery_low", "relative", "hold"]
 def format_field(results, field_name):
     value = results[field_name]
@@ -349,7 +349,7 @@ def format_field(results, field_name):
         return "0"
     else:
         return str(value)
-        
+
 def output_csv(results):
     field_data = [format_field(results, field_name) for field_name in CSV_FIELDS]
     line = ";".join(field_data)
@@ -408,6 +408,6 @@ def main():
             logging.warning('Unknown packet from multimeter: "{}"'.format(line))
         else:
             logging.warning('Not a response from the multimeter: ""'.format(line))
-    
+
 if __name__ == "__main__":
     main()
