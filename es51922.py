@@ -289,11 +289,7 @@ def parse(packet):
     display_value = 0
     for i, digit in zip(range(5), digits):
         display_value += digit*(10**(4-i))
-    
-    # negative value
-    if options["SIGN"]:
-        display_value = display_value * -1
-    
+    if options["SIGN"]: display_value = -display_value
     display_value = Decimal(display_value) / 10**m_range[1]
     display_value = display_value.quantize(Decimal(1)/10**m_range[1])
     display_unit = m_range[2]
