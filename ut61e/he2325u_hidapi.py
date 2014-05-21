@@ -41,7 +41,7 @@ def main():
         for dev in devices:
             name = dev['manufacturer_string'] + " " + dev['product_string']
             path = dev['path'].decode('ascii')
-            logging.info("{} [{}]".format(name, path))
+            logging.info("* {} [{}]".format(name, path))
     
         logging.info("Opening device")
         h = hid.device()
