@@ -214,7 +214,6 @@ OPTION4 = [
     "LPF", #low-pass-filter feature is activated.
 ]
 
-    #packet = [ord(byte) for byte in packet]
 def parse(packet, extended_format = False):
     """
     The most important function of this module:
