@@ -37,6 +37,8 @@ def main():
     try:
         logging.info("Enumerating Devices")
         devices = hid.enumerate(0x1a86, 0xe008)
+        if len(devices) == 0:
+            raise NameError('No device found. Check your USB connection.')
         logging.info("Found {} devices: ".format(len(devices)))
         for dev in devices:
             name = dev['manufacturer_string'] + " " + dev['product_string']
@@ -45,7 +47,10 @@ def main():
     
         logging.info("Opening device")
         h = hid.device()
-        h.open(0x1a86, 0xe008)
+        try:
+            h.open(0x1a86, 0xe008)
+        except IOError as ex:
+            raise NameError('Cannot open the device. Please check permissions.')
     
         buf = [0]*6
         buf[0] = 0x0 # report ID
