@@ -303,18 +303,18 @@ def parse(packet):
         display_value = ""
         value = ""
     results = {
-        "value": value,
-        "unit": unit,
-        "display_value": display_value,
-        "display_unit": display_unit,
-        "mode": mode,
-        "current": current,
-        "peak": peak,
-        "relative": relative,
-        "hold": hold,
-        #"range": mrange,
-        "operation": operation,
-        "battery_low": battery_low
+        'value'         : value,
+        'unit'          : unit,
+        'display_value' : display_value,
+        'display_unit'  : display_unit,
+        'mode'          : mode,
+        'current'       : current,
+        'peak'          : peak,
+        'relative'      : relative,
+        'hold'          : hold,
+        #'range'        :  mrange,
+        'operation'     : operation,
+        'battery_low'   : battery_low
     }
     
     return results
