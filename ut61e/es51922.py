@@ -27,13 +27,20 @@ import struct
 import logging
 import datetime
 
-# http://wiki.python.org/moin/BitManipulation
-# testBit() returns a nonzero result, 2**offset, if the bit at 'offset' is one.
 def test_bit(int_type, offset):
+    """
+    testBit() returns True if the bit at 'offset' is one.
+    From http://wiki.python.org/moin/BitManipulation
+    """
     mask = 1 << offset
     return bool(int_type & mask)
 
 def get_bits(int_type, template):
+    """
+    Extracts 'named bits' from int_type.
+    Naming the bits works by supplying a list of
+    bit names (or fixed bits as 0/1) via template.
+    """
     bits = {}
     for i in range(7):
         bit = test_bit(int_type, i)
@@ -46,6 +53,16 @@ def get_bits(int_type, template):
         else:
            bits[bit_name] = bit
     return bits
+
+"""
+The entries in the following RANGE dictionaries have the following structure:
+
+    (value_multiplier, dp_digit_position, display_unit)
+
+value_multiplier:  Multiply the displayed value by this factor to get the value in base units.
+dp_digit_position: The digit position of the decimal point in the displayed meter reading value.
+display_unit:      The unit the displayed value is shown in.
+"""
 
 RANGE_VOLTAGE = {
     0b0110000: (1e0, 4, "V"),  #2.2000V
@@ -199,6 +216,11 @@ OPTION4 = [
 
     #packet = [ord(byte) for byte in packet]
 def parse(packet, extended_format = False):
+    """
+    The most important function of this module:
+    Parses 12-byte-long packets from the UT61E DMM and returns
+    a dictionary with all information extracted from the packet.
+    """
     d_range, \
     d_digit4, d_digit3, d_digit2, d_digit1, d_digit0, \
     d_function, d_status, \
@@ -358,6 +380,9 @@ def output_readable(results):
     return line
 
 def format_field(results, field_name):
+    """
+    Helper function for output formatting.
+    """
     value = results[field_name]
     if field_name == "value":
         if results["operation"]=="normal":
@@ -376,11 +401,19 @@ def format_field(results, field_name):
 CSV_FIELDS = ["value", "unit", "mode", "current", "operation", "peak",
             "battery_low", "relative", "hold"]
 def output_csv(results):
+    """
+    Helper function to write output lines to a CSV file.
+    """
     field_data = [format_field(results, field_name) for field_name in CSV_FIELDS]
     line = ";".join(field_data)
     return line
 
 def main():
+    """
+    Main function: Entry point if running this module from the command line.
+    Reads lines from stdin and parses them as ES51922 messages.
+    Prints to stdout and to a CSV file.
+    """
     import argparse
     parser = argparse.ArgumentParser(description='Utility for parsing data from multimeters based on Cyrustek ES51922 chipset.')
     parser.add_argument('-m', '--mode', choices=['csv', 'readable'],
