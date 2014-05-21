@@ -291,7 +291,6 @@ def parse(packet):
         display_value += digit*(10**(4-i))
     if options["SIGN"]: display_value = -display_value
     display_value = Decimal(display_value) / 10**m_range[1]
-    display_value = display_value.quantize(Decimal(1)/10**m_range[1])
     display_unit = m_range[2]
     value = float(display_value) * m_range[0]
     
