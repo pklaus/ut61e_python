@@ -161,8 +161,8 @@ DIGITS = {
 
 STATUS = [
     0, 1, 1,
-    "Judge", # 1-°C, 0-°F.
-    "Sign", # 1-minus sign, 0-no sign
+    "JUDGE", # 1-°C, 0-°F.
+    "SIGN", # 1-minus sign, 0-no sign
     "BATT", # 1-battery low
     "OL", # input overflow
 ]
@@ -194,7 +194,7 @@ OPTION3 = [
 OPTION4 = [
     0, 1, 1, 0,
     "VBAR", # 1-VBAR pin is connected to V-.
-    "Hold", # hold mode
+    "HOLD", # hold mode
     "LPF", #low-pass-filter feature is activated.
 ]
 
@@ -249,7 +249,7 @@ def parse(packet):
         relative = False
     
     # data hold mode, received value is actual!
-    if options["Hold"]:
+    if options["HOLD"]:
         hold = True
     else:
         hold = False
@@ -269,11 +269,11 @@ def parse(packet):
         """Auto 220.00A/2200.0A
         Auto 22.000A/220.00A"""
     
-    if options["VAHZ"] and not options["Judge"]:
+    if options["VAHZ"] and not options["JUDGE"]:
         mode = "frequency"
         unit = "Hz"
         m_range = (1e0, 1, "Hz") #2200.0°C
-    elif (options["VAHZ"] or mode == "frequency") and options["Judge"]:
+    elif (options["VAHZ"] or mode == "frequency") and options["JUDGE"]:
         mode = "duty_cycle"
         unit = "%"
         m_range = (1e0, 1, "%") #2200.0°C
@@ -291,7 +291,7 @@ def parse(packet):
         display_value += digit*(10**(4-i))
     
     # negative value
-    if options["Sign"]:
+    if options["SIGN"]:
         display_value = display_value * -1
     
     display_value = Decimal(display_value) / 10**m_range[1]
