@@ -327,8 +327,6 @@ def output_readable(results):
         line.append(" Battery low!")
     return line
 
-CSV_FIELDS = ["value", "unit", "mode", "current", "operation", "peak",
-            "battery_low", "relative", "hold"]
 def format_field(results, field_name):
     value = results[field_name]
     if field_name == "value":
@@ -345,6 +343,8 @@ def format_field(results, field_name):
     else:
         return str(value)
 
+CSV_FIELDS = ["value", "unit", "mode", "current", "operation", "peak",
+            "battery_low", "relative", "hold"]
 def output_csv(results):
     field_data = [format_field(results, field_name) for field_name in CSV_FIELDS]
     line = ";".join(field_data)
