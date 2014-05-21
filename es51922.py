@@ -220,9 +220,9 @@ def parse(packet):
     if options["AC"] and options["DC"]:
         raise ValueError
     elif options["DC"]:
-        current = "AC"
-    elif options["AC"]:
         current = "DC"
+    elif options["AC"]:
+        current = "AC"
     
     operation = "normal"
     # sometimes there a glitch where both UL and OL are enabled in normal operation
