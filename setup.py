@@ -32,7 +32,6 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.3',
         'Topic :: System :: Hardware :: Hardware Drivers',
-        'License :: OSI Approved :: BSD License',
         'Topic :: Scientific/Engineering',
     ]
 )
