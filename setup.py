@@ -1,4 +1,8 @@
-from setuptools import setup
+try:
+    from setuptools import setup
+except ImportError:
+    from distutils.core import setup
+
 try:
     import pypandoc
     LDESC = pypandoc.convert('README.md', 'rst')
