@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 """
 Utility for parsing data from multimeters based on Cyrustek ES51922 chipset.
-Version 0.9.2
 
 Written using as much information from the datasheet as possible
 (some functionality is not documented).
