@@ -198,8 +198,8 @@ OPTION4 = [
     "LPF", #low-pass-filter feature is activated.
 ]
 
-def parse(packet):
     #packet = [ord(byte) for byte in packet]
+def parse(packet, extended_format = False):
     d_range, \
     d_digit4, d_digit3, d_digit2, d_digit1, d_digit0, \
     d_function, d_status, \
@@ -307,10 +307,41 @@ def parse(packet):
         'peak'          : peak,
         'relative'      : relative,
         'hold'          : hold,
-        #'range'        :  mrange,
+        'range'         : mrange,
         'operation'     : operation,
         'battery_low'   : battery_low
     }
+    
+    detailed_results = {
+        'packet_details' : {
+            'raw_data_binary' :  packet,
+            'raw_data_hex'    :  ' '.join('0x{:02X}'.format(x) for x in packet),
+            'data_bytes' : {
+                'd_range'    :  d_range,
+                'd_digit4'   :  d_digit4,
+                'd_digit3'   :  d_digit3,
+                'd_digit2'   :  d_digit2,
+                'd_digit1'   :  d_digit1,
+                'd_digit0'   :  d_digit0,
+                'd_function' :  d_function,
+                'd_status'   :  d_status,
+                'd_option1'  :  d_option1,
+                'd_option2'  :  d_option2,
+                'd_option3'  :  d_option3,
+                'd_option4'  :  d_option4
+            },
+            'options' :  options,
+            'range'   :  {
+                'value_multiplier' : m_range[0],
+                'dp_digit_position' : m_range[1],
+                'display_unit' : m_range[2]
+            }
+        },
+        'display_value' : str(display_value)
+    }
+    if extended_format:
+        results.update(detailed_results)
+        return results
     
     return results
 
