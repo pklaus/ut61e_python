@@ -6,7 +6,6 @@ using the HID-API provided by the operating system.
 It relies on cython-hidapi: https://github.com/trezor/cython-hidapi
 """
 
-import time
 import sys
 
 BPS = 19200
@@ -64,8 +63,6 @@ def main():
         if fr == -1:
             raise NameError("Sending Feature Report Failed")
         logging.debug("Feature Report Sent")
-    
-        time.sleep(1.0)
     
         try:
             logging.debug("Start Reading Messages")
