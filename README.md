@@ -8,7 +8,8 @@ the digital multimeter Uni-T UT61E. You can easily install it via `pip`.
 
 ##### `es51922.py` – Interprets the output of the ES51922 chip
 
-This utility interprets data sent by the Cyrustek ES51922 chip.
+This utility interprets data sent by the Cyrustek ES51922 chip
+used in the Uni-Trend digital multimeter UT61E.
 It reads lines from stdin, tries to interpret them as messages
 from the chip and prints basic information on the stdout.
 In addition it writes a CSV file with a lot more information
