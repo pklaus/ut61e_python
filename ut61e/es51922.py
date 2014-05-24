@@ -225,16 +225,26 @@ def parse(packet, extended_format = False):
     d_function, d_status, \
     d_option1, d_option2, d_option3, d_option4 = struct.unpack("B"*12, packet)
     
-    mode = FUNCTION[d_function][0]
-    m_range =  FUNCTION[d_function][1][d_range]
-    unit = FUNCTION[d_function][2]
-    
     options = {}
     d_options = (d_status, d_option1, d_option2, d_option3, d_option4)
     OPTIONS = (STATUS, OPTION1, OPTION2, OPTION3, OPTION4)
     for d_option, OPTION in zip(d_options, OPTIONS):
         bits = get_bits(d_option, OPTION)
         options.update(bits)
+    
+    function = FUNCTION[d_function]
+    # When the rotary switch is set to 'voltage' or 'ampere' mode and then you 
+    # press the frequency button, the meter shows 'Hz' (or '%') but the
+    # function byte is still the same as before so we have to correct for that:
+    if options["VAHZ"]:
+        function = FUNCTION[0b0110010]
+    mode = function[0]
+    m_range =  function[1][d_range]
+    unit = function[2]
+    if mode == "frequency" and options["JUDGE"]:
+        mode = "duty_cycle"
+        unit = "%"
+        m_range = (1e0, 1, "%") #2200.0°C
     
     current = None
     if options["AC"] and options["DC"]:
@@ -288,15 +298,6 @@ def parse(packet, extended_format = False):
         pass
         """Auto 220.00A/2200.0A
         Auto 22.000A/220.00A"""
-    
-    if options["VAHZ"] and not options["JUDGE"]:
-        mode = "frequency"
-        unit = "Hz"
-        m_range = (1e0, 1, "Hz") #2200.0°C
-    elif (options["VAHZ"] or mode == "frequency") and options["JUDGE"]:
-        mode = "duty_cycle"
-        unit = "%"
-        m_range = (1e0, 1, "%") #2200.0°C
     
     if mode == "temperature" and options["VBAR"]:
         m_range = (1e0, 1, "deg") #2200.0°C
