@@ -34,22 +34,22 @@ def main():
     if args.debug:
         loglevel = logging.DEBUG
     logging.basicConfig(format='%(message)s', level=loglevel)
-
+    
     try:
         logging.info("Looking for the USB/HID Adapter")
         dev = usb.core.find(idVendor=idVendor, idProduct=idProduct)
-
+        
         if dev is None:
             raise NameError('Device not found')
         
         lnd = (dev.bLength, dev.bNumConfigurations, dev.bDeviceClass)
         logging.debug("Length: {}, # configurations: {}, device class: {}".format(*lnd))
-
+        
         if dev.is_kernel_driver_active(interface) is True:
             logging.info('Detaching kernel driver')
             dev.detach_kernel_driver(interface)
         dev.set_configuration()
-
+        
         # get an endpoint instance
         cfg = dev.get_active_configuration()
         interface_number = cfg[(0,0)].bInterfaceNumber
@@ -58,7 +58,7 @@ def main():
             cfg, bInterfaceNumber = interface_number,
             bAlternateSetting = alternate_setting
         )
-
+        
         ep = usb.util.find_descriptor(
             intf,
             # match the first IN endpoint
@@ -67,16 +67,16 @@ def main():
                 usb.util.endpoint_direction(e.bEndpointAddress) == \
                 usb.util.ENDPOINT_IN
         )
-
+        
         assert ep is not None
         em = (ep.bEndpointAddress, ep.wMaxPacketSize)
         logging.debug("Endpoint Address: {}, Max Packet Size: {}".format(*em))
-
+        
         message = [0x00, 0x4b, 0x00, 0x00, 0x03]
         #dev.ctrl_transfer(bmRequestType, bmRequest, wValue, wIndex, payload)
         assert dev.ctrl_transfer(0x21, 9, 0x0300, 0, message)
         logging.debug("Feature Report Sent")
-
+        
         try:
             logging.info("Start Reading Messages")
             while True:

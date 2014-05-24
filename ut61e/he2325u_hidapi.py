@@ -35,7 +35,7 @@ def main():
     if args.debug:
         loglevel = logging.DEBUG
     logging.basicConfig(format='%(message)s', level=loglevel)
-
+    
     try:
         logging.info("Enumerating Devices")
         devices = hid.enumerate(0x1a86, 0xe008)
@@ -46,14 +46,14 @@ def main():
             name = dev['manufacturer_string'] + " " + dev['product_string']
             path = dev['path'].decode('ascii')
             logging.info("* {} [{}]".format(name, path))
-    
+        
         logging.info("Opening device")
         h = hid.device()
         try:
             h.open(0x1a86, 0xe008)
         except IOError as ex:
             raise NameError('Cannot open the device. Please check permissions.')
-    
+        
         buf = [0]*6
         buf[0] = 0x0 # report ID
         buf[1] = BPS & 0xFF
@@ -61,12 +61,12 @@ def main():
         buf[3] = ( BPS >> 16 ) & 0xFF
         buf[4] = ( BPS >> 24 ) & 0xFF
         buf[5] = 0x03 # 3 = enable?
-    
+        
         fr = h.send_feature_report(buf)
         if fr == -1:
             raise NameError("Sending Feature Report Failed")
         logging.debug("Feature Report Sent")
-    
+        
         try:
             logging.debug("Start Reading Messages")
             while True:
@@ -85,7 +85,7 @@ def main():
                     sys.stdout.flush()
         except KeyboardInterrupt:
             logging.info("You pressed CTRL-C, stopping...")
-    
+        
         logging.debug("Closing device")
         h.close()
     
