@@ -19,6 +19,7 @@ def main():
     from inspect import cleandoc
     parser = argparse.ArgumentParser(description=cleandoc(__doc__))
     parser.add_argument('-v', '--verbose', action='store_true', help='Increase verbosity')
+    parser.add_argument('-d', '--debug', action='store_true', help='Enable debug mode')
     args = parser.parse_args()
     try:
         try:
@@ -30,6 +31,8 @@ def main():
     import logging
     loglevel = logging.WARNING
     if args.verbose:
+        loglevel = logging.INFO
+    if args.debug:
         loglevel = logging.DEBUG
     logging.basicConfig(format='%(message)s', level=loglevel)
 
@@ -67,14 +70,15 @@ def main():
         try:
             logging.debug("Start Reading Messages")
             while True:
-                #d = h.read(256)
-                d = h.read(256, timeout_ms=1000)
-                if len(d) < 1: continue
-                payload = d[0] & 0x07
-                if payload > 0:
-                    if len(d) < 1: raise NameError("More bytes announced then sent")
-                    data = d[1:payload+1]
-                    data = [b & ( ~(1<<7) ) for b in data]
+                #answer = h.read(256)
+                answer = h.read(256, timeout_ms=1000)
+                if len(answer) < 1: continue
+                nbytes = answer[0] & 0x7
+                if nbytes > 0:
+                    if len(answer) < nbytes+1:
+                        raise NameError("More bytes announced then sent")
+                    payload = answer[1:nbytes+1]
+                    data = [b & ( ~(1<<7) ) for b in payload]
                     data = [chr(b) for b in data]
                     data = ''.join(data)
                     sys.stdout.write(data)
