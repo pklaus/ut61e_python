@@ -46,7 +46,7 @@ This Python package is registered on PyPI with the name
 [ut61e](https://pypi.python.org/pypi/ut61e).
 To install it, simply run
 
-    pip instal ut61e
+    pip install ut61e
 
 #### Usage
 
