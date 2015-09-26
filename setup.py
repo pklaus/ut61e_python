@@ -12,7 +12,8 @@ except (IOError, ImportError, RuntimeError):
 setup(
     name = 'ut61e',
     version = '1.0.2',
-    description = 'Connect your Digital Multimeter Uni-T UT61E with Python!',
+    description = 'Captures and Interprets Data from your Digital Multimeter Uni-T UT61E.',
+    long_description = LDESC,
     author = 'Philipp Klaus',
     author_email = 'philipp.l.klaus@web.de',
     packages = ['ut61e'],
@@ -25,7 +26,6 @@ setup(
     },
     url = 'https://github.com/pklaus/ut61e_python',
     license = 'GPL',
-    long_description = LDESC,
     install_requires = [],
     extras_require = {
         'access to he2325u_hidapi.py': ["hidapi >= 0.7.0-1"],
