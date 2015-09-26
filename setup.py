@@ -11,7 +11,7 @@ except (IOError, ImportError, RuntimeError):
 
 setup(
     name = 'ut61e',
-    version = '1.0.0',
+    version = '1.0.2',
     description = 'Connect your Digital Multimeter Uni-T UT61E with Python!',
     author = 'Philipp Klaus',
     author_email = 'philipp.l.klaus@web.de',
