@@ -82,7 +82,7 @@ If you run Windows, you may be better off with
 [DMM.exe](http://www-user.tu-chemnitz.de/~heha/hs/UNI-T/),
 an open source tool provided by Henrik Haftmann.
 
-#### History
+#### Acknowledgement
 
 The file es51922.py was originally written by Domas Jokubauskis ([1][])
 and was reused in this project. I'm very grateful to his work and
