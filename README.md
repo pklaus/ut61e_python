@@ -6,7 +6,7 @@ the digital multimeter Uni-T UT61E. You can easily install it via `pip`.
 
 #### Tools which this package provides:
 
-##### `es51922.py` – Interprets the output of the ES51922 chip
+##### `es51922` – Interprets the output of the ES51922 chip
 
 This utility interprets data sent by the Cyrustek ES51922 chip
 used in the Uni-Trend digital multimeter UT61E.
@@ -15,7 +15,7 @@ from the chip and prints basic information on the stdout.
 In addition it writes a CSV file with a lot more information
 to the working directory.
 
-##### `he2325u_hidapi.py` – Reads from the USB/HID adapter cable using HIDAPI
+##### `he2325u_hidapi` – Reads from the USB/HID adapter cable using HIDAPI
 
 This tool tries to read from the adapter cable using the HID API
 provided by the operating system. It relies on [cython-hidapi][].
@@ -26,15 +26,15 @@ newer chip called *WCH CH9325* but the way to get data out of them
 didn't change.
 
 This tool prints its output to stdout so that you can directly
-pipe it into `es51922.py`.
+pipe it into `es51922`.
 Works on Linux and Mac OS X (Windows not tested) without root access.
 On Linux you may have to [create a udev rule][] in order to get access
 to the `/dev/hidrawX` device as a regular user.
 
 
-##### `he2325u_pyusb.py` – Reads from the USB/HID adapter cable using PyUSB
+##### `he2325u_pyusb` – Reads from the USB/HID adapter cable using PyUSB
 
-This tool is very much similar to `he2325u_hidapi.py` as it also
+This tool is very much similar to `he2325u_hidapi` as it also
 allows to read from the USB/HID adapter cable. It also prints its
 output to stdout. It uses PyUSB instead of HIDAPI which in turn uses
 direct libusb calls to talk to the adapter. **Needs to be run as root.** 
@@ -53,17 +53,17 @@ To install it, simply run
 To read data from the USB/HID adapter cable and interpret
 it as Cyrustek ES51922 information, you can do:
 
-    he2325u_hidapi.py | es51922.py
+    he2325u_hidapi | es51922
 
 #### Requirements
 
 You need either Python2 or Python3 to run this software.
 
-To analyze output using `es51922.py` you don't need any external modules.
+To analyze output using `es51922` you don't need any external modules.
 
-If you want to run `he2325u_hidapi.py`, you need [cython-hidapi][].
+If you want to run `he2325u_hidapi`, you need [cython-hidapi][].
 
-If you want to run `he2325u_pyusb.py`, you need [PyUSB][].
+If you want to run `he2325u_pyusb`, you need [PyUSB][].
 
 #### Software using this Package
 
