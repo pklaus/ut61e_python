@@ -16,7 +16,13 @@ setup(
     author = 'Philipp Klaus',
     author_email = 'philipp.l.klaus@web.de',
     packages = ['ut61e'],
-    scripts = ['ut61e/es51922.py', 'ut61e/he2325u_hidapi.py', 'ut61e/he2325u_pyusb.py',],
+    entry_points = {
+      'console_scripts': [
+        'es51922 = ut61e.es51922:main',
+        'he2325u_hidapi = ut61e.he2325u_hidapi:main',
+        'he2325u_pyusb = ut61e.he2325u_pyusb:main',
+      ],
+    },
     url = 'https://github.com/pklaus/ut61e_python',
     license = 'GPL',
     long_description = LDESC,
