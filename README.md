@@ -59,11 +59,11 @@ it as Cyrustek ES51922 information, you can do:
 
 You need either Python2 or Python3 to run this software.
 
-To analyze output using `es51922` you don't need any external modules.
-
 If you want to run `he2325u_hidapi`, you need [cython-hidapi][].
 
 If you want to run `he2325u_pyusb`, you need [PyUSB][].
+
+To analyze output using `es51922` you don't need any external modules.
 
 #### Software using this Package
 
